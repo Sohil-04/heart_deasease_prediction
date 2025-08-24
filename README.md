@@ -1,6 +1,6 @@
-# 📦 Streamlit App Starter Kit 
+# Heart stroke pediction website 
 ```
-⬆️ (Replace above with your app's name)
+⬆️ this project made by me help find out a person have  heart diesease or not
 ```
 
 Description of the app ...
