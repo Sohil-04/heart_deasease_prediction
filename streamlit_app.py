@@ -4,7 +4,7 @@ import joblib
 
 # Load saved model, scaler, and expected columns
 model = joblib.load("logreg_heart.pkl")
-scaler = joblib.load("")
+scaler = joblib.load("scaler.pkl")
 expected_columns = joblib.load("column.pkl")
 
 st.title("Heart Stroke Prediction by akarsh")
