@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# ================== Load Model ==================
+# ================== Load Model & Scaler ==================
 model = joblib.load("logreg_heart.pkl")
 scaler = joblib.load("scaler.pkl")
 expected_columns = joblib.load("column.pkl")
@@ -22,13 +22,6 @@ st.markdown("""
             -webkit-text-fill-color: transparent;
             text-align: center;
             margin-bottom: 20px;
-        }
-        /* Input card */
-        .stSlider, .stSelectbox, .stNumberInput {
-            background-color: #1E1E1E;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 10px;
         }
         /* Prediction result box */
         .result-box {
@@ -58,24 +51,24 @@ st.markdown("Provide the following details to check your heart stroke risk:")
 st.sidebar.title("🔴 App Info")
 st.sidebar.markdown("This app predicts **Heart Disease Risk** using a trained Logistic Regression model.")
 st.sidebar.markdown("---")
-st.sidebar.markdown("👨‍💻 Made with ❤️ by **Sohil**")
+st.sidebar.markdown("👨‍💻 Made with ❤️ by **Sohil Tadavi**")
 
 # ================== Collect User Input ==================
 age = st.slider("Age", 18, 100, 40)
-sex = st.selectbox("Sex", ["Male", "Female"])
+sex = st.selectbox("Sex", ["M", "F"])  # Ensure consistent with training
 chest_pain = st.selectbox("Chest Pain Type", ["ATA", "NAP", "TA", "ASY"])
 resting_bp = st.number_input("Resting Blood Pressure (mm Hg)", 80, 200, 120)
 cholesterol = st.number_input("Cholesterol (mg/dL)", 100, 600, 200)
-fasting_bs = st.selectbox("Fasting Blood Sugar > 120 mg/dL", ['Yes', 'NO'])
+fasting_bs = st.selectbox("Fasting Blood Sugar > 120 mg/dL", [0, 1])
 resting_ecg = st.selectbox("Resting ECG", ["Normal", "ST", "LVH"])
 max_hr = st.slider("Max Heart Rate", 60, 220, 150)
-exercise_angina = st.selectbox("Exercise-Induced Angina", ["Yes", "No"])
+exercise_angina = st.selectbox("Exercise-Induced Angina", ["Y", "N"])  # Keep consistent
 oldpeak = st.slider("Oldpeak (ST Depression)", 0.0, 6.0, 1.0)
 st_slope = st.selectbox("ST Slope", ["Up", "Flat", "Down"])
 
 # ================== Prediction ==================
 if st.button("Predict"):
-    # Raw input dict
+    # Build raw input dict
     raw_input = {
         'Age': age,
         'RestingBP': resting_bp,
@@ -90,12 +83,21 @@ if st.button("Predict"):
         'ST_Slope_' + st_slope: 1
     }
 
-    # Input dataframe
+    # Create dataframe
     input_df = pd.DataFrame([raw_input])
+
+    # Add missing columns with 0
     for col in expected_columns:
         if col not in input_df.columns:
             input_df[col] = 0
+
+    # Ensure correct column order
     input_df = input_df[expected_columns]
+
+    # Debug (optional) - Uncomment to check alignment
+    # st.write("Input shape:", input_df.shape)
+    # st.write("Scaler expects:", scaler.n_features_in_)
+    # st.write("Input cols:", input_df.columns.tolist()[:10])
 
     # Scale input
     scaled_input = scaler.transform(input_df)
@@ -103,7 +105,7 @@ if st.button("Predict"):
     # Predict
     prediction = model.predict(scaled_input)[0]
 
-    # Show styled result
+    # Styled result
     if prediction == 1:
         st.markdown("<div class='result-box high-risk'>⚠️ High Risk of Heart Disease</div>", unsafe_allow_html=True)
     else:
