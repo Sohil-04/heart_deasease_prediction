@@ -7,12 +7,12 @@ model = joblib.load("logreg_heart.pkl")
 scaler = joblib.load("scaler.pkl")
 expected_columns = joblib.load("column.pkl")
 
-st.title("Heart Stroke Prediction by akarsh")
+st.title("Heart Stroke Prediction ")
 st.markdown("Provide the following details to check your heart stroke risk:")
 
 # Collect user input
 age = st.slider("Age", 18, 100, 40)
-sex = st.selectbox("Sex", ["M", "F"])
+sex = st.selectbox("Sex", ["Male", "Female"])
 chest_pain = st.selectbox("Chest Pain Type", ["ATA", "NAP", "TA", "ASY"])
 resting_bp = st.number_input("Resting Blood Pressure (mm Hg)", 80, 200, 120)
 cholesterol = st.number_input("Cholesterol (mg/dL)", 100, 600, 200)
