@@ -58,7 +58,7 @@ st.markdown("Provide the following details to check your heart stroke risk:")
 st.sidebar.title("🔴 App Info")
 st.sidebar.markdown("This app predicts **Heart Disease Risk** using a trained Logistic Regression model.")
 st.sidebar.markdown("---")
-st.sidebar.markdown("👨‍💻 Made with ❤️ by **Akarsh**")
+st.sidebar.markdown("👨‍💻 Made with ❤️ by **Sohil**")
 
 # ================== Collect User Input ==================
 age = st.slider("Age", 18, 100, 40)
