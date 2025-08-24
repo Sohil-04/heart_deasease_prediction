@@ -1,6 +1,6 @@
 [theme]
-primaryColor="#F63366"
-backgroundColor="#FFFFFF"
-secondaryBackgroundColor="#F0F2F6"
-textColor="#262730"
-font="sans serif"
+primaryColor = "#FF4B4B"           # Bright red for buttons, sliders, highlights
+backgroundColor = "#121212"        # Dark background
+secondaryBackgroundColor = "#1E1E1E" # Sidebar background
+textColor = "#FFFFFF"              # White text for contrast
+font = "sans serif"                # Clean font
